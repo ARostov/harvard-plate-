@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "echo 'Тесты пока не настроены' && exit 0"
   },
   "dependencies": {
     "vue": "^3.3.0",
