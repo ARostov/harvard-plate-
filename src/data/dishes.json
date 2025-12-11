@@ -1,0 +1,75 @@
+{
+  "dishes": [
+    {
+      "id": "greek_salad",
+      "name": "Греческий салат",
+      "description": "Классический салат с фетой и оливками",
+      "category": "salad",
+      "difficulty": "easy",
+      "prep_time": 15,
+      "ingredients": [
+        { "id": "tomato", "amount": 200, "unit": "g" },
+        { "id": "cucumber", "amount": 150, "unit": "g" },
+        { "id": "cheese", "amount": 100, "unit": "g" }
+      ],
+      "nutrition": {
+        "calories": 250,
+        "protein": 12,
+        "carbs": 15,
+        "fat": 18,
+        "fiber": 4
+      },
+      "tags": ["греческий", "салат", "легкий", "летний"]
+    },
+    {
+      "id": "chicken_rice_bowl",
+      "name": "Боул с курицей и рисом",
+      "description": "Сбалансированное блюдо с курицей и бурым рисом",
+      "category": "main",
+      "difficulty": "medium",
+      "prep_time": 30,
+      "ingredients": [
+        { "id": "chicken", "amount": 150, "unit": "g" },
+        { "id": "rice", "amount": 100, "unit": "g" },
+        { "id": "broccoli", "amount": 100, "unit": "g" },
+        { "id": "avocado", "amount": 50, "unit": "g" }
+      ],
+      "nutrition": {
+        "calories": 450,
+        "protein": 35,
+        "carbs": 45,
+        "fat": 18,
+        "fiber": 8
+      },
+      "tags": ["боул", "курица", "рис", "сбалансированный"]
+    },
+    {
+      "id": "avocado_toast",
+      "name": "Тост с авокадо и яйцом",
+      "description": "Популярный завтрак с авокадо и яйцом-пашот",
+      "category": "breakfast",
+      "difficulty": "easy",
+      "prep_time": 10,
+      "ingredients": [
+        { "id": "avocado", "amount": 100, "unit": "g" },
+        { "id": "egg", "amount": 2, "unit": "piece" }
+      ],
+      "nutrition": {
+        "calories": 320,
+        "protein": 15,
+        "carbs": 20,
+        "fat": 22,
+        "fiber": 8
+      },
+      "tags": ["завтрак", "тост", "авокадо", "быстро"]
+    }
+  ],
+
+  "dish_categories": {
+    "salad": "Салаты",
+    "main": "Основные блюда",
+    "breakfast": "Завтраки",
+    "snack": "Перекусы",
+    "dessert": "Десерты"
+  }
+}

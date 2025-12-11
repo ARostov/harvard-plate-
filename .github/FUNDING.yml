@@ -1,0 +1,17 @@
+# Это файл для поддержки проекта через GitHub Sponsors
+
+github: ваш-username  # Замените на ваш GitHub username
+
+# Удалите или закомментируйте следующие строки, если не используете:
+# patreon: ваш-patreon
+# open_collective: ваш-collective
+# ko_fi: ваш-kofi
+# tidelift: npm/пакет
+# community_bridge: проект
+# liberapay: ваш-liberapay
+# issuehunt: ваш-issuehunt
+# otechie: ваш-otechie
+# custom: ['https://ваш-сайт/поддержка']
+
+# Пример сообщения, которое будет показано пользователям
+custom: ['https://www.buymeacoffee.com/ваш-profilename']

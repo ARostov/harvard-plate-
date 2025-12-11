@@ -1,0 +1,54 @@
+{
+  "plates": [],
+  "plate_templates": [
+    {
+      "id": "template_balanced",
+      "name": "Сбалансированная тарелка",
+      "description": "Идеальное распределение по Гарвардской тарелке",
+      "ratio": {
+        "vegetable": 0.5,
+        "protein": 0.25,
+        "carb": 0.25
+      },
+      "example_ingredients": [
+        { "id": "broccoli", "amount": 150, "unit": "g" },
+        { "id": "tomato", "amount": 100, "unit": "g" },
+        { "id": "chicken", "amount": 120, "unit": "g" },
+        { "id": "rice", "amount": 100, "unit": "g" }
+      ]
+    },
+    {
+      "id": "template_vegetarian",
+      "name": "Вегетарианская тарелка",
+      "description": "Без мяса, с растительными белками",
+      "ratio": {
+        "vegetable": 0.6,
+        "protein": 0.2,
+        "carb": 0.2
+      },
+      "example_ingredients": [
+        { "id": "avocado", "amount": 100, "unit": "g" },
+        { "id": "tomato", "amount": 100, "unit": "g" },
+        { "id": "cucumber", "amount": 100, "unit": "g" },
+        { "id": "egg", "amount": 2, "unit": "piece" },
+        { "id": "rice", "amount": 80, "unit": "g" }
+      ]
+    },
+    {
+      "id": "template_low_carb",
+      "name": "Низкоуглеводная тарелка",
+      "description": "С упором на белки и овощи",
+      "ratio": {
+        "vegetable": 0.6,
+        "protein": 0.35,
+        "carb": 0.05
+      },
+      "example_ingredients": [
+        { "id": "broccoli", "amount": 200, "unit": "g" },
+        { "id": "avocado", "amount": 100, "unit": "g" },
+        { "id": "chicken", "amount": 150, "unit": "g" },
+        { "id": "cheese", "amount": 50, "unit": "g" }
+      ]
+    }
+  ]
+}

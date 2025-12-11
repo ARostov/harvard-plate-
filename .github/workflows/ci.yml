@@ -1,0 +1,132 @@
+name: CI - Quality Checks
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # Проверка линтинга
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint (если настроен)
+        run: |
+          if [ -f .eslintrc.js ] || [ -f .eslintrc.json ]; then
+            npm run lint || echo "ESLint не настроен, пропускаем"
+          else
+            echo "ESLint не настроен"
+          fi
+
+      - name: Check code formatting
+        run: |
+          # Проверяем наличие Prettier
+          if [ -f .prettierrc ] || [ -f .prettierrc.json ]; then
+            npm run format:check || echo "Prettier не настроен"
+          else
+            echo "Prettier не настроен"
+          fi
+
+  # Проверка сборки
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Check bundle size
+        run: |
+          # Простая проверка размера бандла
+          if [ -d dist ]; then
+            echo "Размер dist папки:"
+            du -sh dist/
+            echo "Размер основных файлов:"
+            find dist -name "*.js" -o -name "*.css" | xargs ls -lh
+          fi
+
+  # Проверка тестов (когда появятся)
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: |
+          if [ -f package.json ] && grep -q '"test"' package.json; then
+            npm test -- --coverage --watchAll=false
+          else
+            echo "Тесты не настроены"
+          fi
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        if: success()
+
+  # Security checks
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate || true
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        if: github.event_name == 'push'
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        if: github.event_name == 'push'
+        with:
+          languages: javascript

@@ -1,0 +1,51 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Запускать каждый день в полночь
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/stale@v8
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Настройки для issues
+          days-before-issue-stale: 60
+          days-before-issue-close: 7
+          stale-issue-label: 'stale'
+          stale-issue-message: |
+            Этот issue был автоматически помечен как устаревший, так как не было активности в течение 60 дней.
+            Он будет закрыт через 7 дней, если не будет активности.
+
+          # Настройки для PR
+          days-before-pr-stale: 30
+          days-before-pr-close: 7
+          stale-pr-label: 'stale'
+          stale-pr-message: |
+            Этот pull request был автоматически помечен как устаревший, так как не было активности в течение 30 дней.
+            Он будет закрыт через 7 дней, если не будет активности.
+
+          # Исключения
+          exempt-issue-labels: 'pinned,security,bug,enhancement'
+          exempt-pr-labels: 'pinned,security,dependencies'
+          exempt-all-assignees: true
+          exempt-all-milestones: true
+
+          # Опции закрытия
+          close-issue-message: |
+            Этот issue был автоматически закрыт из-за отсутствия активности.
+            Если проблема все еще актуальна, пожалуйста, откройте новый issue.
+          close-pr-message: |
+            Этот pull request был автоматически закрыт из-за отсутствия активности.
+            Если изменения все еще актуальны, пожалуйста, откройте новый PR.
+
+          # Включить отладку
+          debug-only: false

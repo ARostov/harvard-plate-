@@ -1,0 +1,31 @@
+{
+  "name": "harvard-plate",
+  "version": "1.0.0",
+  "description": "Калькулятор гарвардской тарелки с AI помощником",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "vue": "^3.3.0",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.0",
+    "vite": "^4.4.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.0"
+  },
+  "keywords": ["nutrition", "health", "food", "harvard-plate"],
+  "author": "Ваше имя",
+  "license": "MIT"
+}

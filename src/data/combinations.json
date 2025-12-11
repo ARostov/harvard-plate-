@@ -1,0 +1,63 @@
+{
+  "good_combinations": [
+    {
+      "foods": ["tomato", "cheese"],
+      "score": 9,
+      "reason": "Классическое сочетание, кислотность помидора балансирует жирность сыра",
+      "examples": ["Капрезе", "Пицца Маргарита"]
+    },
+    {
+      "foods": ["avocado", "egg"],
+      "score": 8,
+      "reason": "Кремовая текстура авокадо дополняет яйцо",
+      "examples": ["Авокадо-тост с яйцом"]
+    },
+    {
+      "foods": ["chicken", "broccoli"],
+      "score": 7,
+      "reason": "Белок курицы и клетчатка брокколи",
+      "examples": ["Курица с брокколи на пару"]
+    },
+    {
+      "foods": ["rice", "chicken"],
+      "score": 8,
+      "reason": "Баланс углеводов и белка",
+      "examples": ["Курица с рисом"]
+    },
+    {
+      "foods": ["tomato", "cucumber"],
+      "score": 9,
+      "reason": "Основа многих салатов",
+      "examples": ["Греческий салат", "Овощной салат"]
+    }
+  ],
+
+  "bad_combinations": [
+    {
+      "foods": ["herring", "milk"],
+      "score": 1,
+      "reason": "Конфликт белков может вызывать пищевую непереносимость",
+      "warning": "Не рекомендуется сочетать рыбу с молочными продуктами"
+    },
+    {
+      "foods": ["melon", "milk"],
+      "score": 2,
+      "reason": "Может вызывать расстройство желудка",
+      "warning": "Дыня плохо сочетается с молочными продуктами"
+    }
+  ],
+
+  "categories_compatibility": {
+    "vegetable": ["protein", "carb", "vegetable"],
+    "protein": ["vegetable", "carb"],
+    "carb": ["vegetable", "protein"]
+  },
+
+  "flavor_rules": {
+    "sweet": ["sour", "salty"],
+    "sour": ["sweet", "fatty"],
+    "salty": ["sweet", "umami"],
+    "bitter": ["sweet", "fatty"],
+    "umami": ["sour", "salty"]
+  }
+}
