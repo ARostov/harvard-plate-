@@ -49,7 +49,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: указываем папку dist, а не _site
           path: ./dist
 
   deploy:

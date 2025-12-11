@@ -172,25 +172,25 @@
         </div>
 
         <!-- Быстрый выбор количества -->
-        <div class="quick-add" v-if="selectedFood">
-          <h4>Добавить {{ selectedFood?.name }}</h4>
-          <div class="amount-selector">
-            <button class="amount-btn" @click="decreaseAmount">-</button>
-            <input
-                type="number"
-                v-model.number="foodAmount"
-                min="10"
-                max="1000"
-                step="10"
-                class="amount-input"
-            />
-            <span class="amount-unit">грамм</span>
-            <button class="amount-btn" @click="increaseAmount">+</button>
-          </div>
-          <button class="btn btn-primary" @click="confirmAdd">
-            <i class="fas fa-check"></i> Добавить {{ foodAmount }}г
-          </button>
-        </div>
+<!--        <div class="quick-add" v-if="selectedFood">-->
+<!--          <h4>Добавить {{ selectedFood?.name }}</h4>-->
+<!--          <div class="amount-selector">-->
+<!--            <button class="amount-btn" @click="decreaseAmount">-</button>-->
+<!--            <input-->
+<!--                type="number"-->
+<!--                v-model.number="foodAmount"-->
+<!--                min="10"-->
+<!--                max="1000"-->
+<!--                step="10"-->
+<!--                class="amount-input"-->
+<!--            />-->
+<!--            <span class="amount-unit">грамм</span>-->
+<!--            <button class="amount-btn" @click="increaseAmount">+</button>-->
+<!--          </div>-->
+<!--          <button class="btn btn-primary" @click="confirmAdd">-->
+<!--            <i class="fas fa-check"></i> Добавить {{ foodAmount }}г-->
+<!--          </button>-->
+<!--        </div>-->
       </div>
     </div>
 
@@ -396,7 +396,15 @@ export default {
     }
 
     function addToPlate(food) {
-      showFoodDetails(food)
+      // Добавляем сразу с дефолтным количеством
+      plateItems.value.push({
+        id: Date.now(),
+        foodId: food.id,
+        amount: 100
+      })
+
+      // Визуальная обратная связь (опционально)
+      console.log('🍽️ Добавлено в тарелку:', food.name)
     }
 
     function confirmAdd() {

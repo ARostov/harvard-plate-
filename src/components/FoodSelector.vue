@@ -699,8 +699,40 @@ export default {
     }
 
     function addToPlate(food) {
-      selectFood(food)
-      // Позже можно добавить переход на страницу тарелки
+      console.log('✅ Добавляем продукт:', food.name)
+
+      // 1. Добавляем в выбранные прямо здесь
+      const isAlreadySelected = selectedFoods.value.some(f => f.id === food.id)
+      if (!isAlreadySelected) {
+        selectedFoods.value.push({
+          ...food,
+          amount: 100
+        })
+      }
+
+      // 2. Сохраняем в localStorage для передачи на главную страницу
+      const plateItem = {
+        id: `${food.id}_${Date.now()}`,
+        foodId: food.id,
+        amount: 100
+      }
+
+      let currentPlate = JSON.parse(localStorage.getItem('current_plate') || '[]')
+      currentPlate.push(plateItem)
+      localStorage.setItem('current_plate', JSON.stringify(currentPlate))
+
+      // 3. Визуальная обратная связь
+      const button = event?.target?.closest('button')
+      if (button) {
+        const originalHTML = button.innerHTML
+        button.innerHTML = '<i class="fas fa-check"></i> Добавлено!'
+        button.classList.add('btn-success')
+
+        setTimeout(() => {
+          button.innerHTML = originalHTML
+          button.classList.remove('btn-success')
+        }, 1500)
+      }
     }
 
     function addAllToPlate() {
@@ -1572,6 +1604,11 @@ export default {
   padding: var(--spacing-lg);
   background: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
+}
+
+.btn-success {
+  background-color: #48bb78 !important;
+  color: white !important;
 }
 
 /* Адаптивность */
