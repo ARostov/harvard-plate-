@@ -11,10 +11,9 @@ const app = createApp(App)
 app.use(router)
 app.mount('#app')
 
-// Убираем индикатор загрузки через секунду
-setTimeout(() => {
-    const loading = document.querySelector('.loading')
-    if (loading) {
-        loading.style.display = 'none'
-    }
-}, 100)
+// Убираем индикатор загрузки после монтирования
+app.config.globalProperties.$appReady = true
+const loading = document.querySelector('.loading')
+if (loading) {
+    loading.style.display = 'none'
+}

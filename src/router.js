@@ -1,39 +1,63 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// Ленивая загрузка компонентов (пока пустые)
-const Home = () => import('./components/Plate.vue')
-const SavedPlates = () => import('./components/FoodSelector.vue') // временно
-const FoodDatabase = () => import('./components/NutritionInfo.vue') // временно
+// Импортируем компоненты
+const Plate = () => import('./components/Plate.vue')
+const FoodSelector = () => import('./components/FoodSelector.vue')
+const NutritionInfo = () => import('./components/NutritionInfo.vue')
+const CompatibilityInfo = () => import('./components/CompatibilityInfo.vue')
 
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: Home,
+        component: Plate,
         meta: { title: 'Конструктор тарелки' }
-    },
-    {
-        path: '/saved',
-        name: 'saved',
-        component: SavedPlates,
-        meta: { title: 'Сохраненные тарелки' }
     },
     {
         path: '/foods',
         name: 'foods',
-        component: FoodDatabase,
+        component: FoodSelector,
         meta: { title: 'База продуктов' }
+    },
+    {
+        path: '/nutrition',
+        name: 'nutrition',
+        component: NutritionInfo,
+        meta: { title: 'Анализ питательности' }
+    },
+    {
+        path: '/compatibility',
+        name: 'compatibility',
+        component: CompatibilityInfo,
+        meta: { title: 'Сочетаемость продуктов' }
+    },
+    // Редирект для старых URL
+    {
+        path: '/saved',
+        redirect: '/'
+    },
+    // 404 страница
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/'
     }
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return { top: 0 }
+        }
+    }
 })
 
 // Изменяем заголовок страницы при навигации
 router.beforeEach((to, from, next) => {
-    document.title = to.meta.title || 'Harvard Plate'
+    document.title = to.meta.title ? `${to.meta.title} | Harvard Plate` : 'Harvard Plate'
     next()
 })
 
