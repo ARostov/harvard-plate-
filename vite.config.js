@@ -4,6 +4,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
     plugins: [vue()],
+    base: '/harvard-plate/',
     server: {
         port: 3000,
         open: true
