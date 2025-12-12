@@ -8,6 +8,7 @@
       <div class="category-header vegetable">
         <i class="fas fa-leaf"></i>
         <h5>Овощи и фрукты ({{ vegetablePercentage }}%)</h5>
+        <span class="category-weight">{{ vegetableWeight }}г</span>
       </div>
       <div class="items-grid">
         <div
@@ -18,7 +19,24 @@
           <span class="item-icon">{{ getFoodIcon(item.foodId) }}</span>
           <div class="item-info">
             <span class="item-name">{{ getFoodName(item.foodId) }}</span>
-            <span class="item-amount">{{ item.amount }}г</span>
+            <div class="amount-controls">
+              <button class="amount-btn" @click="decreaseAmount(item)" title="Уменьшить">
+                <i class="fas fa-minus"></i>
+              </button>
+              <input
+                  type="number"
+                  :value="item.amount"
+                  @input="updateAmount(item, $event.target.value)"
+                  min="10"
+                  max="1000"
+                  step="10"
+                  class="amount-input"
+              />
+              <button class="amount-btn" @click="increaseAmount(item)" title="Увеличить">
+                <i class="fas fa-plus"></i>
+              </button>
+              <span class="amount-unit">г</span>
+            </div>
           </div>
           <button class="remove-btn" @click="removeItem(item)" title="Удалить">
             <i class="fas fa-times"></i>
@@ -32,6 +50,7 @@
       <div class="category-header protein">
         <i class="fas fa-drumstick-bite"></i>
         <h5>Белки ({{ proteinPercentage }}%)</h5>
+        <span class="category-weight">{{ proteinWeight }}г</span>
       </div>
       <div class="items-grid">
         <div
@@ -42,7 +61,24 @@
           <span class="item-icon">{{ getFoodIcon(item.foodId) }}</span>
           <div class="item-info">
             <span class="item-name">{{ getFoodName(item.foodId) }}</span>
-            <span class="item-amount">{{ item.amount }}г</span>
+            <div class="amount-controls">
+              <button class="amount-btn" @click="decreaseAmount(item)" title="Уменьшить">
+                <i class="fas fa-minus"></i>
+              </button>
+              <input
+                  type="number"
+                  :value="item.amount"
+                  @input="updateAmount(item, $event.target.value)"
+                  min="10"
+                  max="1000"
+                  step="10"
+                  class="amount-input"
+              />
+              <button class="amount-btn" @click="increaseAmount(item)" title="Увеличить">
+                <i class="fas fa-plus"></i>
+              </button>
+              <span class="amount-unit">г</span>
+            </div>
           </div>
           <button class="remove-btn" @click="removeItem(item)" title="Удалить">
             <i class="fas fa-times"></i>
@@ -56,6 +92,7 @@
       <div class="category-header carb">
         <i class="fas fa-bread-slice"></i>
         <h5>Углеводы ({{ carbPercentage }}%)</h5>
+        <span class="category-weight">{{ carbWeight }}г</span>
       </div>
       <div class="items-grid">
         <div
@@ -66,7 +103,24 @@
           <span class="item-icon">{{ getFoodIcon(item.foodId) }}</span>
           <div class="item-info">
             <span class="item-name">{{ getFoodName(item.foodId) }}</span>
-            <span class="item-amount">{{ item.amount }}г</span>
+            <div class="amount-controls">
+              <button class="amount-btn" @click="decreaseAmount(item)" title="Уменьшить">
+                <i class="fas fa-minus"></i>
+              </button>
+              <input
+                  type="number"
+                  :value="item.amount"
+                  @input="updateAmount(item, $event.target.value)"
+                  min="10"
+                  max="1000"
+                  step="10"
+                  class="amount-input"
+              />
+              <button class="amount-btn" @click="increaseAmount(item)" title="Увеличить">
+                <i class="fas fa-plus"></i>
+              </button>
+              <span class="amount-unit">г</span>
+            </div>
           </div>
           <button class="remove-btn" @click="removeItem(item)" title="Удалить">
             <i class="fas fa-times"></i>
@@ -97,7 +151,20 @@ const props = defineProps({
   getFoodIcon: Function
 })
 
-const emit = defineEmits(['remove-item'])
+const emit = defineEmits(['remove-item', 'update-amount'])
+
+// Вес по категориям
+const vegetableWeight = computed(() =>
+    props.vegetableItems.reduce((sum, item) => sum + item.amount, 0)
+)
+
+const proteinWeight = computed(() =>
+    props.proteinItems.reduce((sum, item) => sum + item.amount, 0)
+)
+
+const carbWeight = computed(() =>
+    props.carbItems.reduce((sum, item) => sum + item.amount, 0)
+)
 
 const hasItems = computed(() =>
     props.vegetableItems.length > 0 ||
@@ -107,6 +174,22 @@ const hasItems = computed(() =>
 
 const removeItem = (item) => {
   emit('remove-item', item)
+}
+
+const increaseAmount = (item) => {
+  const newAmount = Math.min(item.amount + 10, 1000)
+  emit('update-amount', { item, amount: newAmount })
+}
+
+const decreaseAmount = (item) => {
+  const newAmount = Math.max(item.amount - 10, 10)
+  emit('update-amount', { item, amount: newAmount })
+}
+
+const updateAmount = (item, value) => {
+  const newAmount = parseInt(value) || 10
+  const clampedAmount = Math.min(Math.max(newAmount, 10), 1000)
+  emit('update-amount', { item, amount: clampedAmount })
 }
 </script>
 
@@ -148,11 +231,20 @@ const removeItem = (item) => {
 .category-header h5 {
   margin: 0;
   font-size: 1.1rem;
+  flex: 1;
+}
+
+.category-weight {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
 }
 
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: var(--spacing-sm);
 }
 
@@ -196,22 +288,61 @@ const removeItem = (item) => {
   justify-content: center;
   background: white;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .item-info {
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0; /* Для корректной работы с текстом */
 }
 
 .item-name {
   font-weight: 500;
-  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.item-amount {
+.amount-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.amount-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border-color);
+  background: white;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.amount-btn:hover {
+  background: var(--bg-tertiary);
+}
+
+.amount-input {
+  width: 60px;
+  text-align: center;
+  padding: 2px 4px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.amount-unit {
   font-size: 0.8rem;
   color: var(--text-secondary);
+  margin-left: 2px;
 }
 
 .remove-btn {
@@ -221,6 +352,7 @@ const removeItem = (item) => {
   cursor: pointer;
   border: none;
   background: none;
+  flex-shrink: 0;
 }
 
 .remove-btn:hover {
@@ -244,6 +376,14 @@ const removeItem = (item) => {
 @media (max-width: 768px) {
   .items-grid {
     grid-template-columns: 1fr;
+  }
+
+  .amount-input {
+    width: 50px;
+  }
+
+  .item-name {
+    font-size: 0.9rem;
   }
 }
 </style>

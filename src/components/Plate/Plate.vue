@@ -12,13 +12,14 @@
         :get-food-name="getFoodName"
         :get-food-icon="getFoodIcon"
         @remove-item="removeFromPlate"
+        @update-amount="updateAmount"
     />
 
     <!-- Выбор продуктов -->
     <FoodSelection
         :foods="foodsData.foods"
         :selected-category="selectedCategory"
-        @add-to-plate="addToPlate"
+        @add-to-plate="handleAddToPlate"
         @category-change="selectCategory"
     />
   </div>
@@ -28,9 +29,11 @@
 import { ref, computed } from 'vue'
 import PlateVisualization from './PlateVisualization.vue'
 import FoodSelection from './FoodSelection.vue'
-import PlateItemsList from './PlateItemsList.vue'
 import foodsData from '../../data/foods.json'
-import { calculatePlateBalance } from '../../utils/calculations'
+import { calculatePlateBalance } from '@/utils/calculations.js'
+
+console.log('Foods data loaded:', foodsData)
+console.log('Foods array:', foodsData?.foods)
 
 // Состояние
 const plateItems = ref([
@@ -76,11 +79,18 @@ const getFoodIcon = (foodId) => {
   return food ? food.icon : '❓'
 }
 
-const addToPlate = (food) => {
+// Обработчик добавления в тарелку
+const handleAddToPlate = ({ food, amount }) => {
+  // Добавляем проверку
+  if (!food || !food.id) {
+    console.error('Invalid food object received:', food)
+    return
+  }
+
   plateItems.value.push({
     id: Date.now(),
     foodId: food.id,
-    amount: 100
+    amount: amount
   })
 }
 
@@ -88,6 +98,13 @@ const removeFromPlate = (item) => {
   const index = plateItems.value.findIndex(i => i.id === item.id)
   if (index !== -1) {
     plateItems.value.splice(index, 1)
+  }
+}
+
+const updateAmount = ({ item, amount }) => {
+  const index = plateItems.value.findIndex(i => i.id === item.id)
+  if (index !== -1) {
+    plateItems.value[index].amount = amount
   }
 }
 

@@ -23,7 +23,7 @@
           v-for="food in filteredFoods"
           :key="food.id"
           :food="food"
-          @add-to-plate="$emit('add-to-plate', food)"
+          @add-to-plate="handleAddToPlate"
       />
     </div>
   </div>
@@ -56,9 +56,15 @@ const filteredFoods = computed(() => {
 const selectCategory = (categoryId) => {
   emit('category-change', categoryId)
 }
+
+// Обработчик добавления в тарелку
+const handleAddToPlate = ({ food, amount }) => {
+  emit('add-to-plate', { food, amount })
+}
 </script>
 
 <style scoped>
+/* Стили остаются без изменений */
 .food-selection {
   padding: var(--spacing-md);
 }
