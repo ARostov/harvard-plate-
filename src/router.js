@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Импортируем компоненты
-const Plate = () => import('./components/Plate.vue')
+const Plate = () => import('./components/Plate/Plate.vue')
 const FoodSelector = () => import('./components/FoodSelector.vue')
 const NutritionInfo = () => import('./components/NutritionInfo.vue')
 const CompatibilityInfo = () => import('./components/CompatibilityInfo.vue')
