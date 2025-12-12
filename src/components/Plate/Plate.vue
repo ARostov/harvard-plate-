@@ -138,6 +138,26 @@ const selectCategory = (category) => {
   selectedCategory.value = category
 }
 
+// Метод для применения готовой тарелки
+const applyMealPlan = (plan) => {
+  // Очищаем текущую тарелку
+  plateItems.value = []
+
+  // Добавляем продукты из плана
+  plan.items.forEach(item => {
+    plateItems.value.push({
+      id: Date.now() + Math.random(),
+      foodId: item.foodId,
+      amount: item.amount
+    })
+  })
+
+  console.log(`✅ Применена тарелка "${plan.name}"`)
+}
+
+defineExpose({
+  applyMealPlan
+})
 // Отслеживаем изменения и отправляем данные в родительский компонент
 watch([nutrition, totalWeight, totalItems, vegetablePercentage, proteinPercentage, carbPercentage], () => {
   // Отправляем данные о питательности
